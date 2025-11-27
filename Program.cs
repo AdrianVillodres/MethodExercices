@@ -4,22 +4,22 @@
     {
         public static void Main()
         {
-            const string NumberInputMsg = "Give me a temperature";
-            const string OperationMsg = "Which conversion do you want to do: 1: Celsius to Fahrenhait, 2: Fahrenhait to Celsius, 3: Celsius to Kelvin";
-            const string ErrorMsg = "Error, you must put a float number (> 0)";
+            const string HoursParkedMsg = "How many hours have you been parked?";
+            const string MinutesParkedMsg = "How many minutes have you been parked?";
+            const string ErrorMsg = "Error, you must put an integer number (> 0)";
 
-            float temp = 0;
-            int num = 0;
-            int tries = 3;
-            bool tempVal = false;
-            bool numVal = false;
+            int hours = 0;
+            int minutes = 0;
+            bool hoursValid = false;
+            bool minutesValid = false;
 
-            while (!tempVal)
+
+            while (!hoursValid)
             {
-                Console.WriteLine(NumberInputMsg);
+                Console.WriteLine(HoursParkedMsg);
                 try
                 {
-                    temp = float.Parse(Console.ReadLine());
+                    hours = Int32.Parse(Console.ReadLine());
                 }
                 catch (OverflowException)
                 {
@@ -33,73 +33,73 @@
                 {
                     Console.WriteLine(ErrorMsg);
                 }
-                if (temp > 0f)
+                if (hours >= 0f)
                 {
-                    tempVal = true;
+                    hoursValid = true;
                 }
                 else
                 {
                     Console.WriteLine(ErrorMsg);
                 }
             }
-            while (!numVal && tries > 0)
+            while (!minutesValid)
             {
-                Console.WriteLine(OperationMsg);
+                Console.WriteLine(MinutesParkedMsg);
                 try
                 {
-                    num = Int32.Parse(Console.ReadLine());
+                    minutes = Int32.Parse(Console.ReadLine());
                 }
                 catch (OverflowException)
                 {
                     Console.WriteLine(ErrorMsg);
-                    tries--;
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine(ErrorMsg);
-                    tries--;
                 }
                 catch (Exception)
                 {
                     Console.WriteLine(ErrorMsg);
-                    tries--;
                 }
-                if (num > 0 && num <= 3)
+                if (minutes >= 0f)
                 {
-                    numVal = true;
+                    minutesValid = true;
                 }
                 else
                 {
                     Console.WriteLine(ErrorMsg);
-                    tries--;
+                }
+
+                if (hoursValid && minutesValid)
+                {
+                    Console.WriteLine($"{CalculeParkingFee(ref hours, ref minutes).ToString("F2")}$");
                 }
             }
-
-            if(numVal && tempVal)
-            {
-                Console.WriteLine(CalculateTemp(temp, ref num));
-            }
-
-
         }
 
-        public static float CalculateTemp(float tempI, ref int op)
+        public static float CalculeParkingFee(ref int hoursI, ref int min)
         {
-            float tempConversed = 0f;
-            switch (op)
+            float hoursTax;
+            float minTax;
+
+            if(hoursI == 1)
             {
-                case 1:
-                    tempConversed = tempI * 9 / 5 + 32;
-                    break;
-                case 2:
-                    tempConversed = (tempI - 32) * 5 / 9;
-                    break;
-                case 3:
-                    tempConversed = tempI + 273.15f;
-                    break;
+                hoursTax = 3.50f;
+            }else if(hoursI >= 2 && hoursI <= 5)
+            {
+                hoursTax = hoursI * 2f;
+            }else if(hoursI >= 6)
+            {
+                hoursTax = hoursI * 1.50f;
             }
-            return (float)Math.Round(tempConversed, 2);
+            else
+            {
+                hoursTax = 0;
+            }
+
+            minTax = (min / 10) * 0.166666667f;
+
+            return hoursTax + minTax;
         }
-        
     }
 }
