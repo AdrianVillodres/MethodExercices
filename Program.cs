@@ -10,74 +10,28 @@
 
             int hours = 0;
             int minutes = 0;
-            bool hoursValid = false;
-            bool minutesValid = false;
+            bool valid = false;
 
 
-            while (!hoursValid)
+
+            while (!valid)
             {
                 Console.WriteLine(HoursParkedMsg);
-                try
-                {
-                    hours = Int32.Parse(Console.ReadLine());
-                }
-                catch (OverflowException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                if (hours >= 0f)
-                {
-                    hoursValid = true;
-                }
-                else
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
+                Validate( hours, ErrorMsg, ref valid);
             }
-            while (!minutesValid)
+            valid = false;
+            while (!valid)
             {
                 Console.WriteLine(MinutesParkedMsg);
-                try
-                {
-                    minutes = Int32.Parse(Console.ReadLine());
-                }
-                catch (OverflowException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                if (minutes >= 0f)
-                {
-                    minutesValid = true;
-                }
-                else
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-
-                if (hoursValid && minutesValid)
-                {
-                    Console.WriteLine($"{CalculeParkingFee(ref hours, ref minutes).ToString("F2")}$");
-                }
+                Validate( minutes, ErrorMsg, ref valid);
+            }
+            if (valid)
+            {
+                Console.WriteLine($"{CalculeParkingFee(hours, minutes).ToString("F2")}$");
             }
         }
 
-        public static float CalculeParkingFee(ref int hoursI, ref int min)
+        public static float CalculeParkingFee( int hoursI,  int min)
         {
             float hoursTax;
             float minTax;
@@ -100,6 +54,35 @@
             minTax = (min / 10) * 0.166666667f;
 
             return hoursTax + minTax;
+        }
+
+        public static bool Validate( int time, string ErrorMsg, ref bool valid)
+        {
+            try
+            {
+                time = Int32.Parse(Console.ReadLine());
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine(ErrorMsg);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine(ErrorMsg);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(ErrorMsg);
+            }
+            if (time >= 0f)
+            {
+                valid = true;
+            }
+            else
+            {
+                Console.WriteLine(ErrorMsg);
+            }
+            return valid;
         }
     }
 }
