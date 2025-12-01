@@ -72,10 +72,11 @@
                         expo[index] = 1;
                         index++;
                     }
+
                     Console.Write($"{og} = ");
                     for (int i = 0; i < index; i++)
                     {
-                        Console.Write($"{primes[i]}^{expo[i]} X ");
+                        Console.Write($"{primes[i]}^{expo[i]} ");
                     }
                     {
 
