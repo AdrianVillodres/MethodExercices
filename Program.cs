@@ -4,21 +4,19 @@
     {
         public static void Main()
         {
-            const string IntroMsg = "How many hours have you been parked?";
-            const string EvenPositonsMsg = "Addition of even numbers: {0}";
-            const string OddPositionsMsg = "Exponent of odd numbers: {0}";
-            const string HighLowMsg = "Highest number: {0}, Lowest number: {1}";
+            const string IntroMsg = "Give me a natural number";
             const string ErrorMsg = "Error, you must put an integer number (> 0)";
 
             int num = 0;
+            int og = 0;
+            int numDiv = 1;
+            int count;
+            int maxFact = 32;
+            int[] primes = new int[maxFact];
+            int[] expo = new int[maxFact];
+            int index = 0;
             bool numValid = false;
-            string numStrg = num.ToString();
-            int sumEven = 0;
-            int prodOdd = 1;
-            int highestNum = 0;
-            int lowestNum = 1;
-            int digit;
-            int pos;
+            
 
 
             while (!numValid)
@@ -51,56 +49,40 @@
 
                 if (numValid)
                 {
-                    numStrg = num.ToString();
-                    for (int i = 0; i < numStrg.Length; i++)
+                    og = num;
+                    
+                    for (int i = 2; i * i <= num; i++)
                     {
-                        digit = numStrg[i] - '0';
-                        pos = i + 1;
-                        if (pos % 2 == 0)
+                        count = 0;
+                        while (num % i == 0)
                         {
-                            sumEven = SumNumbers(ref digit, ref sumEven);
+                            num /= i;
+                            count++;
                         }
-                        else
+                        if(count > 0)
                         {
-                            prodOdd = MultiplyNumbers(ref digit, ref prodOdd);
+                            primes[index] = i;
+                            expo[index] = count;
+                            index++;
                         }
-                        highestNum = HigestNumber(ref digit, ref highestNum);
-
-                        lowestNum = LowestNumber(ref digit, ref lowestNum);
                     }
-                    Console.WriteLine(EvenPositonsMsg,sumEven);
-                    Console.WriteLine(OddPositionsMsg, prodOdd);
-                    Console.WriteLine(HighLowMsg, highestNum, lowestNum);
+                    if (num > 1)
+                    {
+                        primes[index] = num;
+                        expo[index] = 1;
+                        index++;
+                    }
+                    Console.Write($"{og} = ");
+                    for (int i = 0; i < index; i++)
+                    {
+                        Console.Write($"{primes[i]}^{expo[i]} X ");
+                    }
+                    {
+
+                    }
                 }
             }
         }
-        public static int SumNumbers(ref int numEven, ref int totalEven)
-        {
-            return totalEven += numEven;
-        }
 
-        public static int MultiplyNumbers(ref int numOdd, ref int totalOdd)
-        {
-            return totalOdd *= numOdd;
-        }
-
-        public static int HigestNumber(ref int num, ref int highNumber)
-        {
-            if(num > highNumber)
-            {
-                highNumber = num;
-            }
-            return highNumber;
-        }
-        public static int LowestNumber(ref int num, ref int LowNumber)
-        {
-            if (num < LowNumber)
-            {
-                LowNumber = num;
-            }
-            return LowNumber;
-        }
     }
-
-
 }
