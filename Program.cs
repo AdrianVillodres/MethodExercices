@@ -4,7 +4,7 @@
     {
         public static void Main()
         {
-            const string IntroMsg = "How many hours have you been parked?";
+            const string IntroMsg = "Give me a natural number";
             const string EvenPositonsMsg = "Addition of even numbers: {0}";
             const string OddPositionsMsg = "Exponent of odd numbers: {0}";
             const string HighLowMsg = "Highest number: {0}, Lowest number: {1}";
