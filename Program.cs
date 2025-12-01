@@ -4,22 +4,29 @@
     {
         public static void Main()
         {
-            const string HoursParkedMsg = "How many hours have you been parked?";
-            const string MinutesParkedMsg = "How many minutes have you been parked?";
+            const string IntroMsg = "How many hours have you been parked?";
+            const string EvenPositonsMsg = "Addition of even numbers: {0}";
+            const string OddPositionsMsg = "Exponent of odd numbers: {0}";
+            const string HighLowMsg = "Highest number: {0}, Lowest number: {1}";
             const string ErrorMsg = "Error, you must put an integer number (> 0)";
 
-            int hours = 0;
-            int minutes = 0;
-            bool hoursValid = false;
-            bool minutesValid = false;
+            int num = 0;
+            bool numValid = false;
+            string numStrg = num.ToString();
+            int sumEven = 0;
+            int prodOdd = 1;
+            int highestNum = 0;
+            int lowestNum = 1;
+            int digit;
+            int pos;
 
 
-            while (!hoursValid)
+            while (!numValid)
             {
-                Console.WriteLine(HoursParkedMsg);
+                Console.WriteLine(IntroMsg);
                 try
                 {
-                    hours = Int32.Parse(Console.ReadLine());
+                    num = Int32.Parse(Console.ReadLine());
                 }
                 catch (OverflowException)
                 {
@@ -33,73 +40,67 @@
                 {
                     Console.WriteLine(ErrorMsg);
                 }
-                if (hours >= 0f)
+                if (num > 0f)
                 {
-                    hoursValid = true;
-                }
-                else
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-            }
-            while (!minutesValid)
-            {
-                Console.WriteLine(MinutesParkedMsg);
-                try
-                {
-                    minutes = Int32.Parse(Console.ReadLine());
-                }
-                catch (OverflowException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine(ErrorMsg);
-                }
-                if (minutes >= 0f)
-                {
-                    minutesValid = true;
+                    numValid = true;
                 }
                 else
                 {
                     Console.WriteLine(ErrorMsg);
                 }
 
-                if (hoursValid && minutesValid)
+                if (numValid)
                 {
-                    Console.WriteLine($"{CalculeParkingFee(ref hours, ref minutes).ToString("F2")}$");
+                    numStrg = num.ToString();
+                    for (int i = 0; i < numStrg.Length; i++)
+                    {
+                        digit = numStrg[i] - '0';
+                        pos = i + 1;
+                        if (pos % 2 == 0)
+                        {
+                            sumEven = SumNumbers(ref digit, ref sumEven);
+                        }
+                        else
+                        {
+                            prodOdd = MultiplyNumbers(ref digit, ref prodOdd);
+                        }
+                        highestNum = HigestNumber(ref digit, ref highestNum);
+
+                        lowestNum = LowestNumber(ref digit, ref lowestNum);
+                    }
+                    Console.WriteLine(EvenPositonsMsg,sumEven);
+                    Console.WriteLine(OddPositionsMsg, prodOdd);
+                    Console.WriteLine(HighLowMsg, highestNum, lowestNum);
                 }
             }
         }
-
-        public static float CalculeParkingFee(ref int hoursI, ref int min)
+        public static int SumNumbers(ref int numEven, ref int totalEven)
         {
-            float hoursTax;
-            float minTax;
+            return totalEven += numEven;
+        }
 
-            if(hoursI == 1)
+        public static int MultiplyNumbers(ref int numOdd, ref int totalOdd)
+        {
+            return totalOdd *= numOdd;
+        }
+
+        public static int HigestNumber(ref int num, ref int highNumber)
+        {
+            if(num > highNumber)
             {
-                hoursTax = 3.50f;
-            }else if(hoursI >= 2 && hoursI <= 5)
-            {
-                hoursTax = hoursI * 2f;
-            }else if(hoursI >= 6)
-            {
-                hoursTax = hoursI * 1.50f;
+                highNumber = num;
             }
-            else
+            return highNumber;
+        }
+        public static int LowestNumber(ref int num, ref int LowNumber)
+        {
+            if (num < LowNumber)
             {
-                hoursTax = 0;
+                LowNumber = num;
             }
-
-            minTax = (min / 10) * 0.166666667f;
-
-            return hoursTax + minTax;
+            return LowNumber;
         }
     }
+
+
 }
